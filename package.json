@@ -1,0 +1,28 @@
+{
+  "name": "dkanban",
+  "version": "1.0.0",
+  "description": "Distributed Kanban board that stores data in Gun - Jamstack",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estebanrfp/dKanban.git"
+  },
+  "author": "Esteban Fuster Pozzi / @estebanrfp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/estebanrfp/dKanban/issues"
+  },
+  "homepage": "https://github.com/estebanrfp/dKanban#readme",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}
