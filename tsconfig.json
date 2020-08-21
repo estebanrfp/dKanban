@@ -17,16 +17,7 @@
     "pretty": true,
     "paths": {
       "core/*": ["components/*"]
-    },
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules",
-        "options": {
-          "customMatcher": "\\.m\\.css$",
-          "camelCase": "dashes"
-        }
-      }
-    ]
+    }
   },
   // "inclue": ["/*"],
   // "include": ["src/**/*"],
