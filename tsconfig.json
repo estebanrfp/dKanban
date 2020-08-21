@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": "lib",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ESNext",
+    "module": "none",
+    "outDir": "dist",
+    "outFile": "dist/index.js",
+    "sourceMap": true,
+    "allowJs" : true,
+    "removeComments": true,
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    "pretty": true,
+    "paths": {
+      "core/*": ["components/*"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.m\\.css$",
+          "camelCase": "dashes"
+        }
+      }
+    ]
+  },
+  // "inclue": ["/*"],
+  // "include": ["src/**/*"],
+  "include": ["lib/index.ts"],
+  "exclude": [
+    "node_modules"
+  ]
+}
+
