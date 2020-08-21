@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/estebanrfp/dKanban#readme",
   "devDependencies": {
-    "typescript": "^3.9.7",
-    "typescript-plugin-css-modules": "^2.4.0"
+    "typescript": "^3.9.7"
   }
 }
