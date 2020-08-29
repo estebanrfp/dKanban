@@ -4,6 +4,7 @@ Distributed Kanban board that stores data in Gun - Jamstack
 
 ## Features
 - Markdown
+- Drag & Drop Cards and Columns
 - Add, Edit, Remove Cards
 - Add, Edit, Remove Columns
 
