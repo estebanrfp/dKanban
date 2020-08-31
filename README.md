@@ -15,3 +15,9 @@ Distributed Kanban board that stores data in Gun - Jamstack
 [dKanban Demo](https://dkanban.netlify.app/)
 
 Powered by [Esteban Fuster Pozzi / @estebanrfp](https://desarrolloactivo.com)
+
+
+-------------
+
+#### Credits & Thanks
+* [Mark's GUN](https://gun.eco/) and its community!
