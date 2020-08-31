@@ -1,6 +1,6 @@
 # dKanban Board
 
-Distributed Kanban board that stores data in Gun - Jamstack
+Distributed Kanban board that stores data in Gun
 
 ## Features
 - Markdown
@@ -12,12 +12,11 @@ Distributed Kanban board that stores data in Gun - Jamstack
 
 ![GitHub Logo](docs/screenshot.png)
 
-[dKanban Demo](https://dkanban.netlify.app/)
-
-Powered by [Esteban Fuster Pozzi / @estebanrfp](https://desarrolloactivo.com)
-
+[dKanban Demo](https://dkanban.netlify.app/) Powered by [GUN](https://gun.eco/)
 
 -------------
 
 #### Credits & Thanks
 * [Mark's GUN](https://gun.eco/) and its community!
+
+* [by estebanrfp](https://desarrolloactivo.com/)
