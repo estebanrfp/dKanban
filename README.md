@@ -12,7 +12,7 @@ Distributed Kanban board that stores data in Gun
 
 ![GitHub Logo](docs/screenshot.png)
 
-[dKanban Demo](https://dkanban.netlify.app/) Powered by [GUN](https://gun.eco/)
+[dKanban Demo](https://dkanban.com/) Powered by [GUN](https://gun.eco/)
 
 -------------
 
