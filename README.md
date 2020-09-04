@@ -12,6 +12,8 @@ Distributed Kanban board that stores data in Gun
 
 ![GitHub Logo](docs/screenshot.png)
 
+![GitHub Logo](docs/dkanban.png)
+
 [dKanban Demo](https://dkanban.com/) Powered by [GUN](https://gun.eco/)
 
 -------------
