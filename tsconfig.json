@@ -1,29 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": "lib",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "ESNext",
-    "module": "none",
-    "outDir": "dist",
-    "outFile": "dist/index.js",
-    "sourceMap": true,
-    "allowJs" : true,
-    "removeComments": true,
-    "lib": [
-      "ESNext",
-      "dom"
-    ],
+    "baseUrl": "./lib/",
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "importHelpers": true,
+    "allowJs": true,
     "pretty": true,
     "paths": {
       "core/*": ["components/*"]
     }
-  },
-  // "inclue": ["/*"],
-  // "include": ["src/**/*"],
-  "include": ["lib/index.ts"],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }
-
