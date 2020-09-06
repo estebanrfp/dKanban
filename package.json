@@ -16,6 +16,16 @@
     "type": "git",
     "url": "git+https://github.com/estebanrfp/dKanban.git"
   },
+  "keywords": [
+    "gun",
+    "kanban",
+    "task",
+    "board",
+    "javascript",
+    "typescript",
+    "distributed",
+    "encrypted"
+  ],
   "author": "Esteban Fuster Pozzi / @estebanrfp",
   "license": "ISC",
   "bugs": {
