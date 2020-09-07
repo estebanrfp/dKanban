@@ -1,0 +1,67 @@
+.spinner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  z-index: 100000;
+  height: 60px;
+  width: 60px;
+  transform: translate(-50%, -50%);
+  animation: rotate 0.8s infinite linear;
+  border: 4px solid #0ff;
+  border-right-color: transparent;
+  border-radius: 50%;
+}
+
+.opacity {
+	-webkit-filter: brightness(0.6);
+	-moz-filter: brightness(0.6);
+	filter: brightness(0.6);
+}
+
+.fadein {
+	opacity: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+
+.fadeout {
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+	transition: all 0.3s ease 0.15s;
+}
+
+@-moz-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
