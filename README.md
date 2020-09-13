@@ -8,6 +8,9 @@ Distributed Kanban board that stores data in Gun
 - Add, Edit, Remove Cards
 - Add, Edit, Remove Columns
 
+## Coming soon
+Refactored components will be available soon
+
 ## ScreenShoot
 
 ![GitHub Logo](docs/screenshot.png)
