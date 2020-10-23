@@ -1,0 +1,35 @@
+#modal {
+  background-color: #FFFFFF;
+  position: fixed;
+  padding: 0;
+  z-index: 51;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 320px;
+  max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#modalTitle {
+  padding: .5rem 1rem;
+}
+
+#modalHeader, #modalBody, #submenuHeader {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, .051);
+}
+
+#modalBody {
+  flex-direction: column;
+  padding: 1rem;
+}
+
+#close-modal, #close-col-menu {
+  margin-left: auto;
+  background: transparent;
+}
+
+.todo {
+  padding: 1rem;
+}
