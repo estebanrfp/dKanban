@@ -1,0 +1,180 @@
+#pageMessages {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 340px;
+  z-index: 20000;
+}
+
+#pageMessages input[type] {
+  outline: none;
+  padding: 1rem;
+  color: #ffffff;
+  background: #7dc1e0;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+span.actions {
+  display: block;
+  margin: 1rem 0 0 0;
+  padding: 1rem 0 0 0;
+  text-align: right;
+}
+
+#pageMessages .alert {
+  position: relative;
+  /* animation: fading 1.8s; */
+}
+
+#pageMessages .alert {
+  padding: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#pageMessages .alert p {
+  word-break: break-all;
+}
+
+#pageMessages .alert a {
+  color: green
+}
+
+#pageMessages .alert strong {
+  text-transform: uppercase;
+}
+
+#pageMessages .alert h4 {
+  display: block;
+  font-weight: bold;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+#pageMessages .alertin {
+  /* position: relative;
+  animation: alertin 1s; */
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+#pageMessages .alertout {
+  /* position: relative; */
+  animation: alertout 1.2s;
+}
+
+#pageMessages .danger {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.alert-danger {
+  color: #666;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.alert-success {
+  color: #666;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.alert-info {
+  color: #666;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.alert-warning {
+  color: #666;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+#pageMessages .close {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  color: inherit;
+  /* filter: alpha(opacity=20); */
+  opacity: .2;
+}
+
+.alert .fa {
+  margin-right:.3em;
+}
+
+@media screen and (max-width:600px) {
+  #pageMessages {
+    padding: 0 1rem;
+    right: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+@keyframes alertin {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes alertout {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes shake {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.backgroundIn {
+  animation: backgroundIn .3s both;
+  pointer-events: none;
+}
+.backgroundOut {
+  pointer-events: auto;
+  animation: backgroundOut .3s both;
+}
+
+@keyframes backgroundIn {
+  from { filter: blur(0) brightness(1); }
+    to { filter: blur(3px) brightness(.6); }
+}
+@keyframes backgroundOut {
+  from { filter: blur(3px) brightness(.6); }
+    to { filter: blur(0) brightness(1);  }
+}
