@@ -1,0 +1,118 @@
+
+.wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* margin-right: 50%; */
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+.wrap input {
+  color: #fff;
+  background: #6698db;
+  /* border: none; */
+  /* border-bottom: 0.5rem solid #fff; */
+  width: 280px;
+  height: 120px;
+  /* border: 8px dashed rgba(0,0,0,.078); */
+  outline: none;
+  padding: 1rem;
+  font-size: 24px;
+  z-index: 2;
+  text-align: center;
+}
+
+.wrap input::-webkit-input-placeholder {
+  color: #fff;
+  transition: color 0.4s ease;
+}
+
+.wrap input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.wrap .bg {
+  height: 0%;
+  width: 100%;
+  /* background: #00000005; */
+  position: absolute;
+  bottom: 0;
+  z-index: -2;
+  transition: height 0.7s cubic-bezier(0.76, -0.76, 0.25, 1.26);
+  overflow: hidden;
+  /* border: 8px dashed rgba(0,0,0,.078); */
+  /* box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); */
+  z-index: 1000000;
+}
+
+.wrap input:focus+.bg {
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  max-width: 124vw;
+  height: 100vh;
+  /* gap: 20px; */
+  /* margin: 10px auto; */
+  margin: 0;
+  padding: 0;
+  animation: resize 6000ms ease infinite both;
+}
+
+.item {
+  /* --color2: 36;
+  --color2: 76;
+  --delay: 0ms;
+  background-color: hsl(var(--color1), 100%, 60%); */
+  animation: colorChange 3000ms ease var(--delay) infinite both;
+}
+.item:nth-child(4n - 2) {
+  --delay: 1000ms;
+}
+.item:nth-child(4n) {
+  --delay: 2000ms;
+}
+@keyframes colorChange {
+  0% {
+    background-color: #ffb647;
+  }
+  25% {
+    background-color: #ceff47;
+  }
+  50% {
+    background-color: #47afff;
+  }
+  75% {
+    background-color: #ff47f0;
+  }
+  100% {
+    background-color: #ffb647;
+  }
+}
+@keyframes resize {
+  0% {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  25% {
+    grid-template-columns: 1fr 2fr 3fr;
+    grid-template-rows: 1fr 2fr 3fr;
+  }
+  50% {
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+  }
+  75% {
+    grid-template-columns: 3fr 2fr 1fr;
+    grid-template-rows: 3fr 2fr 1fr;
+  }
+  100% {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+}
+
