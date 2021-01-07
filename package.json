@@ -8,8 +8,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "rimraf dist/ && webpack --config webpack.prod.js --progress --colors",
-    "watch": "rimraf dist/ && webpack --config webpack.prod.js --progress --colors --watch",
+    "build": "rimraf dist/ && webpack --mode production",
+    "dev": "rimraf dist/ && webpack --mode development --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -33,39 +33,36 @@
   },
   "homepage": "https://github.com/estebanrfp/dKanban#readme",
   "devDependencies": {
-    "autoprefixer": "^9.8.6",
+    "autoprefixer": "^10.2.0",
     "babel-loader": "^8.2.2",
-    "brotli-webpack-plugin": "^1.1.0",
-    "compression-webpack-plugin": "^5.0.2",
-    "copy-webpack-plugin": "^5.1.2",
-    "css-loader": "^4.3.0",
+    "compression-webpack-plugin": "^7.1.1",
+    "copy-webpack-plugin": "^7.0.0",
+    "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.1.5",
     "es6-promise": "^4.2.8",
-    "eslint": "^7.16.0",
-    "eslint-config-standard": "^14.1.1",
+    "eslint": "^7.17.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.1.0",
     "html-loader": "^1.3.2",
-    "html-webpack-plugin": "^4.5.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "nodemon": "^2.0.6",
+    "html-webpack-plugin": "^4.5.1",
+    "mini-css-extract-plugin": "^1.3.3",
+    "nodemon": "^2.0.7",
     "offline-plugin": "^5.0.7",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "postcss-loader": "^3.0.0",
+    "postcss-loader": "^4.1.0",
     "rimraf": "^3.0.2",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2",
-    "terser-webpack-plugin": "^3.1.0",
-    "ts-loader": "^8.0.12",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-manifest-plugin": "^2.2.0",
-    "webpack-merge": "^4.2.2"
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-manifest-plugin": "^3.0.0"
   },
   "dependencies": {
     "gun": "^0.2020.520",
+    "latest": "^0.2.0",
     "marked": "^1.2.7"
   }
 }
