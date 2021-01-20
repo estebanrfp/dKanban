@@ -28,43 +28,39 @@
     "distributed",
     "encrypted"
   ],
-  "author": "Esteban Fuster Pozzi / @estebanrfp",
+  "author": "Esteban Fuster Pozzi <estebanrfp@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/estebanrfp/dKanban/issues"
   },
   "homepage": "https://github.com/estebanrfp/dKanban#readme",
   "devDependencies": {
-    "autoprefixer": "^10.2.1",
-    "babel-loader": "^8.2.2",
+    "autoprefixer": "10.2.3",
     "compression-webpack-plugin": "^7.1.2",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
     "css-minimizer-webpack-plugin": "^1.2.0",
     "es6-promise": "^4.2.8",
-    "eslint": "^7.17.0",
+    "eslint": "7.18.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "html-loader": "^1.3.2",
-    "html-webpack-plugin": "^4.5.1",
+    "html-webpack-plugin": "5.0.0-beta.5",
     "mini-css-extract-plugin": "^1.3.4",
     "nodemon": "^2.0.7",
-    "offline-plugin": "^5.0.7",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.0.14",
     "typescript": "^4.1.3",
-    "webpack": "^5.14.0",
-    "webpack-cli": "^4.3.1",
-    "webpack-manifest-plugin": "^3.0.0",
+    "webpack": "5.15.0",
+    "webpack-cli": "4.4.0",
     "workbox-webpack-plugin": "^6.0.2"
   },
   "dependencies": {
     "gun": "^0.2020.520",
-    "marked": "^1.2.7",
-    "workbox-window": "^6.0.2"
+    "marked": "^1.2.7"
   }
 }
