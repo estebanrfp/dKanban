@@ -29,7 +29,7 @@
     "encrypted"
   ],
   "author": "Esteban Fuster Pozzi <estebanrfp@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/estebanrfp/dKanban/issues"
   },
@@ -61,6 +61,6 @@
   },
   "dependencies": {
     "gun": "^0.2020.520",
-    "marked": "^1.2.7"
+    "marked": "1.2.8"
   }
 }
