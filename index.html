@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>dKanban Board</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+  <meta httpEquiv="Pragma" content="no-cache" />
+  <link rel="shortcut icon" href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
+
+</head>
+
+<body>
+  <span id="pageMessages"></span>
+  <div class="notifications"></div>
+  <span class="spinner fadeout"></span>
+  <div id="container" class="Layout"></div>
+  <div id="modal" hidden>
+    <div id="modalHeader">
+      <h2 id="modalTitle"></h2>
+      <button id="close-modal">&times;</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+  <div id="sub-menu" hidden>
+    <div id="submenuHeader">
+      <h3 id="submenuTitle"></h3>
+      <button id="close-col-menu">&times;</button>
+    </div>
+    <div id="submenuBody"></div>
+  </div>
+  <div id="overlay" class="hidden"></div>
+  <script src="/sw.js"></script>
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
