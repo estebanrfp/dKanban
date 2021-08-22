@@ -45,7 +45,7 @@
     "vite-plugin-pwa": "0.11.0"
   },
   "dependencies": {
-    "gun": "github:amark/gun#manhattan",
+    "gun": "github:amark/gun#363428ae5e451489899ba481414fcd8e7207306d",
     "marked": "3.0.0"
   }
 }
