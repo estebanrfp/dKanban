@@ -1,0 +1,33 @@
+#code {
+  position: absolute;
+  left: 1000;
+  top: 0;
+}
+
+.node .title {
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: 8px 8px 0 8px !important;
+}
+
+.node .control input, .node .input-control input {
+  width: 140px;
+}
+#node_short_num {
+    padding: 2px 4px !important;
+    font-size: 80% !important;
+  width: 80px;
+}
+#node_short_txt {
+    padding: 2px 4px !important;
+    font-size: 80% !important;
+  width: 80px;
+}
+
+#node_radio {
+  width: 20px;
+}
+.node_submit {
+	width: 30px;
+    text-align: center;
+}
