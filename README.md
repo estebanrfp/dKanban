@@ -24,4 +24,4 @@ Refactored components will be available soon
 #### Credits & Thanks
 * [Mark's GUN](https://gun.eco/) and its community!
 
-* [by estebanrfp](https://desarrolloactivo.com/)
+* [by estebanrfp](https://github.com/estebanrfp)
