@@ -1,6 +1,6 @@
 import { registerSW } from 'virtual:pwa-register'
 
-import './lib/index.ts'
+import './lib/index'
 
 const updateSW = registerSW({
   onNeedRefresh () {
