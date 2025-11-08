@@ -1,52 +1,10 @@
 {
   "name": "dkanban",
   "version": "1.0.0",
-  "description": "Distributed Kanban board that stores data in Gun",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs",
-    "lib": "lib"
-  },
-  "scripts": {
-    "dev": "vite --port 3000",
-    "build": "vite build",
-    "serve": "vite preview --port 3000"
-  },
+  "description": "Distributed Kanban board (GenosDB + ESM, no build)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/estebanrfp/dKanban.git"
-  },
-  "keywords": [
-    "gun",
-    "kanban",
-    "task",
-    "board",
-    "javascript",
-    "typescript",
-    "distributed",
-    "encrypted"
-  ],
-  "author": "Esteban Fuster Pozzi <estebanrfp@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/estebanrfp/dKanban/issues"
-  },
-  "homepage": "https://github.com/estebanrfp/dKanban#readme",
-  "devDependencies": {
-    "es6-promise": "^4.2.8",
-    "eslint": "8.28.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-standard": "^5.0.0",
-    "rollup-plugin-copy": "3.4.0",
-    "vite": "3.2.4",
-    "vite-plugin-pwa": "0.13.3"
-  },
-  "dependencies": {
-    "gun": "0.2020.1238",
-    "marked": "4.2.3",
-    "netlify-cli": "2.37.0"
   }
 }

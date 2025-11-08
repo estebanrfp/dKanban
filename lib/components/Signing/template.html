@@ -1,5 +1,14 @@
 <div class="wrap">
-  <input id="inputData" type="text" placeholder="New Profile / Paste Keys">
+	<div class="login-box smart">
+		<h2>dKanban Access</h2>
+		<p class="hint">Paste your mnemonic phrase to sign in. If empty, a new one will be generated.</p>
+		<textarea id="mnemonic-input" placeholder="Enter mnemonic phrase..." rows="3" aria-label="mnemonic phrase"></textarea>
+		<div class="actions">
+			<button id="copy-btn" type="button" hidden>Copy</button>
+			<button id="smart-btn" class="primary">Continue</button>
+				<button id="webauthn-btn" type="button" hidden>Save WebAuthn</button>
+		</div>
+	</div>
   <div class="bg"></div>
 </div>
 

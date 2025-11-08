@@ -9,7 +9,14 @@
     content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
   <meta httpEquiv="Pragma" content="no-cache" />
   <link rel="shortcut icon" href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
-
+  <link rel="stylesheet" href="./lib/styles.css">
+  <!-- Component styles (loaded via link instead of JS imports) -->
+  <link rel="stylesheet" href="./lib/components/Alerts/styles.css">
+  <link rel="stylesheet" href="./lib/components/Modal/styles.css">
+  <link rel="stylesheet" href="./lib/components/Spinner/styles.css">
+  <link rel="stylesheet" href="./lib/components/Signing/styles.css">
+  <link rel="stylesheet" href="./lib/components/Kanban/styles.css">
+  <link rel="stylesheet" href="./lib/components/Kanban/colorPicker.css">
 </head>
 
 <body>
@@ -32,8 +39,42 @@
     <div id="submenuBody"></div>
   </div>
   <div id="overlay" class="hidden"></div>
-  <script src="/sw.js"></script>
-  <script type="module" src="/main.js"></script>
+  <!-- Single top-level module with all boot logic -->
+  <script type="module">
+    // Import ESM dependencies from CDNs
+    import { gdb } from 'https://cdn.jsdelivr.net/npm/genosdb@latest/dist/index.min.js'
+    import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js'
+
+    // Lazy-load local components only when needed
+    const mount = document.querySelector('.Layout')
+
+    // Initialize database once, enabling SM (RTC required)
+    const db = await gdb('dkanban', {
+      rtc: true,
+      sm: {
+        // NOTE: replace with your admin addresses
+        superAdmins: ['0xE5639DfE345F8ab845bEBE63a1C7322F9c6fF5c7']
+      }
+    })
+
+    const loadKanban = async () => {
+      const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
+      // Provide dependencies explicitly
+      await mountKanban({ db, mount, marked, onLogout: loadSigning })
+    }
+
+    const loadSigning = async () => {
+      const { default: mountSigning } = await import('./lib/components/Signing/index.js')
+      await mountSigning({ db, mount, onAuthenticated: loadKanban })
+    }
+
+    // Decide first screen based on security/session state
+    if (db.sm && db.sm.isSecurityActive()) {
+      await loadKanban()
+    } else {
+      await loadSigning()
+    }
+  </script>
 </body>
 
 </html>
