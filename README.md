@@ -17,7 +17,7 @@ Refactored components will be available soon
 
 [![dKanban Video](docs/dkanban.png)](https://cdn.lbryplayer.xyz/api/v3/streams/free/dKanban-Board---Distributed-Kanban-board-that-stores-data-in-Gun/9976b03a22673dd0d3942fa4db78655252b915cd/850aff "dKanban Video")
 
-[dKanban Demo](https://dkanban.com/) Powered by [GenosDB](https://github.com/estebanrfp/gdb)
+[dKanban Demo](https://estebanrfp.github.io/dKanban/) Powered by [GenosDB](https://github.com/estebanrfp/gdb)
 
 -------------
 
