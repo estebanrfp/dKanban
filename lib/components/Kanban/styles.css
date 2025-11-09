@@ -354,12 +354,13 @@ textarea {
   align-items: center;
   gap: 8px;
   z-index: 5;
+  color: #86aed7;
 }
 
 input#filter-search {
   color: #fff;
   font-size: 1rem;
-  width: 240px;
+  width: 80px;
   padding: .5rem 1rem;
   border-radius: 8px;
   /* background: rgba(102,152,220,.27058823529411763); */
