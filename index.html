@@ -65,22 +65,82 @@
       }
     })
 
-    const loadKanban = async () => {
+    const loadKanban = async (state = {}) => {
       const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
-      // Provide dependencies explicitly
-      await mountKanban({ db, mount, marked, onLogout: loadSigning })
+      await mountKanban({ db, mount, marked, onLogout: loadSigning, state })
     }
 
     const loadSigning = async () => {
       const { default: mountSigning } = await import('./lib/components/Signing/index.js')
-      await mountSigning({ db, mount, onAuthenticated: loadKanban })
+      await mountSigning({ db, mount, onAuthenticated: (identity) => {
+        const abbrAddr = identity?.address ? `${ identity.address.slice(0,6) }…${ identity.address.slice(-4) }` : undefined
+        loadKanban({ abbrAddr })
+      } })
     }
 
-    // Decide first screen based on security/session state
+    // Helpers for WebAuthn auto-login
+    const toBase64Url = buffer => {
+      const bytes = new Uint8Array(buffer)
+      let binary = ''
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i])
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
+    }
+    const fromBase64Url = (str) => {
+      const pad = '='.repeat((4 - (str.length % 4)) % 4)
+      const base64 = (str + pad).replace(/-/g, '+').replace(/_/g, '/')
+      const raw = atob(base64)
+      const out = new Uint8Array(raw.length)
+      for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i)
+      return out.buffer
+    }
+    const abbr = addr => addr ? `${ addr.slice(0,6) }…${ addr.slice(-4) }` : ''
+
+    async function tryAutoLoginWithWebAuthn () {
+      if (!('credentials' in navigator) || !('PublicKeyCredential' in window)) return null
+      // Collect known WebAuthn records from localStorage
+      let rawId = localStorage.getItem('webauthn-last')
+      let record = rawId ? JSON.parse(localStorage.getItem(`webauthn-${rawId}`) || 'null') : null
+      if (!record) {
+        // Fallback: scan localStorage for any webauthn-* record
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i)
+          if (k && k.startsWith('webauthn-') && !k.startsWith('webauthn-mnemonic-') && k !== 'webauthn-last') {
+            try { record = JSON.parse(localStorage.getItem(k) || 'null') } catch (_) { record = null }
+            if (record && record.rawId) { rawId = record.rawId; break }
+          }
+        }
+      }
+      if (!record || !rawId) return null
+      // Build a simple assertion request against the saved credential id
+      const challenge = new Uint8Array(32); crypto.getRandomValues(challenge)
+      const allowCredentials = [{ type: 'public-key', id: fromBase64Url(rawId) }]
+      try {
+        const assertion = await navigator.credentials.get({ publicKey: { challenge, allowCredentials, userVerification: 'preferred' } })
+        if (!assertion) return null
+        // Retrieve stored mnemonic and login
+        const mnemonic = localStorage.getItem(`webauthn-mnemonic-${rawId}`)
+        if (!mnemonic) return null
+        try {
+          const identity = await db.sm.loginOrRecoverUserWithMnemonic(mnemonic)
+          return identity
+        } catch (_) {
+          return null
+        }
+      } catch (_) {
+        return null
+      }
+    }
+
+    // Decide first screen based on security/session state + WebAuthn auto-login
     if (db.sm && db.sm.isSecurityActive()) {
       await loadKanban()
     } else {
-      await loadSigning()
+      const identity = await tryAutoLoginWithWebAuthn()
+      if (identity?.address) {
+        await loadKanban({ abbrAddr: abbr(identity.address) })
+      } else {
+        await loadSigning()
+      }
     }
   </script>
 </body>
