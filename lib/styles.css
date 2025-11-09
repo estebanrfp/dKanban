@@ -38,3 +38,17 @@ h4 {
 p {
   margin-top: .5rem;
 }
+
+textarea {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  padding: .5rem;
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  /* resize: vertical; */
+  resize: none;
+  opacity: 0.5;
+
+}
