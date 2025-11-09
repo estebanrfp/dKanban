@@ -96,36 +96,24 @@
     const abbr = addr => addr ? `${ addr.slice(0,6) }…${ addr.slice(-4) }` : ''
 
     async function tryAutoLoginWithWebAuthn () {
-      if (!('credentials' in navigator) || !('PublicKeyCredential' in window)) return null
-      // Collect known WebAuthn records from localStorage
+      // Objetivo: evitar pedir huella/biometría en cada reload.
+      // Si hay mnemonic asociado a una credencial previa, reingresamos directo.
       let rawId = localStorage.getItem('webauthn-last')
-      let record = rawId ? JSON.parse(localStorage.getItem(`webauthn-${rawId}`) || 'null') : null
-      if (!record) {
-        // Fallback: scan localStorage for any webauthn-* record
-        for (let i = 0; i < localStorage.length; i++) {
+      let mnemonic = rawId ? localStorage.getItem(`webauthn-mnemonic-${rawId}`) : null
+      if (!mnemonic) {
+        // Fallback: buscar cualquier mnemonic guardado
+        for (let i = 0; i < localStorage.length && !mnemonic; i++) {
           const k = localStorage.key(i)
-          if (k && k.startsWith('webauthn-') && !k.startsWith('webauthn-mnemonic-') && k !== 'webauthn-last') {
-            try { record = JSON.parse(localStorage.getItem(k) || 'null') } catch (_) { record = null }
-            if (record && record.rawId) { rawId = record.rawId; break }
+          if (k && k.startsWith('webauthn-mnemonic-')) {
+            mnemonic = localStorage.getItem(k)
+            rawId = k.replace('webauthn-mnemonic-', '')
           }
         }
       }
-      if (!record || !rawId) return null
-      // Build a simple assertion request against the saved credential id
-      const challenge = new Uint8Array(32); crypto.getRandomValues(challenge)
-      const allowCredentials = [{ type: 'public-key', id: fromBase64Url(rawId) }]
+      if (!mnemonic) return null
       try {
-        const assertion = await navigator.credentials.get({ publicKey: { challenge, allowCredentials, userVerification: 'preferred' } })
-        if (!assertion) return null
-        // Retrieve stored mnemonic and login
-        const mnemonic = localStorage.getItem(`webauthn-mnemonic-${rawId}`)
-        if (!mnemonic) return null
-        try {
-          const identity = await db.sm.loginOrRecoverUserWithMnemonic(mnemonic)
-          return identity
-        } catch (_) {
-          return null
-        }
+        const identity = await db.sm.loginOrRecoverUserWithMnemonic(mnemonic)
+        return identity
       } catch (_) {
         return null
       }
