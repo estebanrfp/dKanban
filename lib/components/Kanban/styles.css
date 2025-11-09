@@ -37,7 +37,7 @@ textarea {
   margin: 1rem;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
 }
 
 .split {
@@ -82,7 +82,7 @@ textarea {
   height: 30px;
   border: none;
   /* padding: 2px; */
-  color: #6a737d !important
+  color: #6a737d!important
 }
 
 .add-card-box {
@@ -137,7 +137,7 @@ textarea {
   top: 50%;
   color: cyan;
   cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
 }
 
 .cardsContainer {
@@ -355,9 +355,6 @@ textarea {
   gap: 8px;
   z-index: 5;
   color: #86aed7;
-  background: #4a6b9c;
-  border-radius: 8px;
-  padding-left: .5rem;
 }
 
 input#filter-search {
@@ -368,7 +365,7 @@ input#filter-search {
   border-radius: 8px;
   /* background: rgba(102,152,220,.27058823529411763); */
   background: rgb(180 222 255 / 54%);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
 }
 
 
