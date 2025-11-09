@@ -8,7 +8,8 @@
   <meta name="viewport"
     content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
   <meta httpEquiv="Pragma" content="no-cache" />
-  <link rel="shortcut icon" href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
+  <link rel="shortcut icon"
+    href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
   <link rel="stylesheet" href="./lib/styles.css">
   <!-- Component styles (loaded via link instead of JS imports) -->
   <link rel="stylesheet" href="./lib/components/Alerts/styles.css">
@@ -53,7 +54,14 @@
       rtc: true,
       sm: {
         // NOTE: replace with your admin addresses
-        superAdmins: ['0xE5639DfE345F8ab845bEBE63a1C7322F9c6fF5c7']
+        superAdmins: ['0xE5639DfE345F8ab845bEBE63a1C7322F9c6fF5c7'],
+        customRoles: {
+          superadmin: { can: ["assignRole", "deleteAny"], inherits: ["admin"] },
+          admin: { can: ["delete"], inherits: ["manager"] },
+          manager: { can: ["publish"], inherits: ["user"] },
+          user: { can: ["write"], inherits: ["guest"] },
+          guest: { can: ["read", "sync", "write"] },  // "write" added temporarily for testing guest permissions
+        }
       }
     })
 
