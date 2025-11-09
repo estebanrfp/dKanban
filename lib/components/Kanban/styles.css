@@ -345,25 +345,26 @@ textarea {
   opacity: 0.2;
 }
 
-input#filter-search {
+/* Header user info (abbr + filter) aligned horizontally */
+.user-info {
   position: fixed;
-  color: #fff;
-  font-size: 1rem;
   top: 2.5rem;
   right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+input#filter-search {
+  color: #fff;
+  font-size: 1rem;
   width: 240px;
   padding: .5rem 1rem;
   border-radius: 8px;
   /* background: rgba(102,152,220,.27058823529411763); */
   background: rgb(180 222 255 / 54%);
   box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
-}
-
-.user-abbr {
-  position: fixed;
-  top: 2.5rem;
-  right: calc(1rem + 240px + 8px);
-  z-index: 5;
 }
 
 
