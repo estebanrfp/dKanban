@@ -153,6 +153,12 @@ textarea {
   z-index: 0;
 }
 
+/* The author .grid rule outranks the UA [hidden] style — enforce it, which
+   also stops the keyframe animations from burning CPU while signed in. */
+#doorBackdrop[hidden] {
+  display: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
