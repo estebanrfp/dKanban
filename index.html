@@ -10,13 +10,13 @@
   <meta httpEquiv="Pragma" content="no-cache" />
   <link rel="shortcut icon"
     href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
-  <link rel="stylesheet" href="./lib/styles.css">
+  <link rel="stylesheet" href="./lib/styles.css?v=acl1">
   <!-- Component styles (loaded via link instead of JS imports) -->
-  <link rel="stylesheet" href="./lib/components/Alerts/styles.css">
-  <link rel="stylesheet" href="./lib/components/Modal/styles.css">
-  <link rel="stylesheet" href="./lib/components/Spinner/styles.css">
-  <link rel="stylesheet" href="./lib/components/Kanban/styles.css">
-  <link rel="stylesheet" href="./lib/components/Kanban/colorPicker.css">
+  <link rel="stylesheet" href="./lib/components/Alerts/styles.css?v=acl1">
+  <link rel="stylesheet" href="./lib/components/Modal/styles.css?v=acl1">
+  <link rel="stylesheet" href="./lib/components/Spinner/styles.css?v=acl1">
+  <link rel="stylesheet" href="./lib/components/Kanban/styles.css?v=acl1">
+  <link rel="stylesheet" href="./lib/components/Kanban/colorPicker.css?v=acl1">
 </head>
 
 <body>
@@ -171,7 +171,7 @@
         if (typeof unmountKanban === 'function') unmountKanban()
         unmountKanban = null
         if (!myAddress) { mount.innerHTML = ''; return } // signed out: the modal is the door
-        const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
+        const { default: mountKanban } = await import('./lib/components/Kanban/index.js?v=acl1')
         unmountKanban = await mountKanban({
           db, mount, marked, toast,
           state: {
@@ -182,7 +182,10 @@
           },
           onLogout: () => db.sm.clearSecurity()
         })
-      }).catch(e => console.error('Kanban mount failed:', e))
+      }).catch(e => {
+        console.error('Kanban mount failed:', e)
+        toast('Board failed to mount: ' + (e?.message || e), true)
+      })
       return mountQueue
     }
 
