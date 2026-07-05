@@ -56,7 +56,11 @@ textarea {
    Styled after dKanban's own modal component: white card, Rubik, green
    confirm buttons. Three phases gated by [data-phase]. */
 #identityModal {
-  background: #FFFFFF;
+  /* Translucent like the original Signing box — the curtain colors glow
+     through the glass; blur keeps the text readable. */
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #444;
   border: 0;
   border-radius: 4px;
@@ -97,7 +101,8 @@ textarea {
 
 #identityModal textarea {
   opacity: 1;
-  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   font-family: monospace;
   font-size: .85rem;
 }
