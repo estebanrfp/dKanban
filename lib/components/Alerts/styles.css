@@ -6,29 +6,8 @@
   z-index: 20000;
 }
 
-#pageMessages input[type] {
-  outline: none;
-  padding: 1rem;
-  color: #ffffff;
-  background: #7dc1e0;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-span.actions {
-  display: block;
-  margin: 1rem 0 0 0;
-  padding: 1rem 0 0 0;
-  text-align: right;
-}
-
 #pageMessages .alert {
   position: relative;
-  /* animation: fading 1.8s; */
-}
-
-#pageMessages .alert {
   padding: 1rem;
   margin-bottom: 20px;
   border: 1px solid transparent;
@@ -43,30 +22,24 @@ span.actions {
   color: green
 }
 
-#pageMessages .alert strong {
-  text-transform: uppercase;
-}
-
 #pageMessages .alert h4 {
   display: block;
   font-weight: bold;
   margin: 0 0 10px;
-  text-transform: uppercase;
 }
+
+/* Entrance: calm fade by default… */
 #pageMessages .alertin {
-  /* position: relative;
-  animation: alertin 1s; */
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  animation: alertin .3s both;
+}
+
+/* …the shake stays exclusive to warning/danger (assigned in index.js) */
+#pageMessages .alert-shake {
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
 }
 
 #pageMessages .alertout {
-  /* position: relative; */
   animation: alertout 1.2s;
-}
-
-#pageMessages .danger {
-  background-color: #f2dede;
-  color: #a94442;
 }
 
 .alert-danger {
@@ -96,14 +69,10 @@ span.actions {
 #pageMessages .close {
   position: absolute;
   top: 2px;
-  right: 0;
+  right: 6px;
   color: inherit;
-  /* filter: alpha(opacity=20); */
-  opacity: .2;
-}
-
-.alert .fa {
-  margin-right:.3em;
+  opacity: .4;
+  cursor: pointer;
 }
 
 @media screen and (max-width:600px) {
@@ -116,33 +85,33 @@ span.actions {
 }
 
 @keyframes alertin {
-	from {
-		opacity: 0;
-	}
+  from {
+    opacity: 0;
+  }
 
-	to {
-		opacity: 1;
-	}
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes alertout {
-	from {
-		opacity: 1;
-	}
+  from {
+    opacity: 1;
+  }
 
-	to {
-		opacity: 0;
-	}
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes shake {
-	from {
-		opacity: 0;
-	}
+  from {
+    opacity: 0;
+  }
 
-	to {
-		opacity: 1;
-	}
+  to {
+    opacity: 1;
+  }
 
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
@@ -159,22 +128,4 @@ span.actions {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-}
-
-.backgroundIn {
-  animation: backgroundIn .3s both;
-  pointer-events: none;
-}
-.backgroundOut {
-  pointer-events: auto;
-  animation: backgroundOut .3s both;
-}
-
-@keyframes backgroundIn {
-  from { filter: blur(0) brightness(1); }
-    to { filter: blur(3px) brightness(.6); }
-}
-@keyframes backgroundOut {
-  from { filter: blur(3px) brightness(.6); }
-    to { filter: blur(0) brightness(1);  }
 }
