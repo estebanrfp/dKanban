@@ -52,3 +52,87 @@ textarea {
   opacity: 0.5;
 
 }
+/* ── Identity modal (the door of the app — GenosDB Design Guide) ──
+   Styled after dKanban's own modal component: white card, Rubik, green
+   confirm buttons. Three phases gated by [data-phase]. */
+#identityModal {
+  background: #FFFFFF;
+  color: #444;
+  border: 0;
+  border-radius: 4px;
+  min-width: 320px;
+  max-width: 400px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#identityModal::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+#identityModal h2 {
+  color: #4a6b9c;
+  margin-bottom: .5rem;
+}
+
+#identityModal .id-hint {
+  font-size: .85rem;
+  color: #666;
+  line-height: 1.4;
+  margin: .25rem 0 .5rem;
+}
+
+#identityModal .id-hint.id-warn {
+  color: #b78103;
+}
+
+#identityModal .id-addr {
+  font-family: monospace;
+  font-size: .8rem;
+  word-break: break-all;
+  color: #4a6b9c;
+}
+
+#identityModal textarea {
+  opacity: 1;
+  border: 1px solid #ccc;
+  font-family: monospace;
+  font-size: .85rem;
+}
+
+#identityModal .id-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+
+#identityModal .id-actions button {
+  padding: .5rem .75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #e8eef7;
+  color: #444;
+}
+
+#identityModal .id-actions button.confirm-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#identityModal .superadmin-btn {
+  margin-top: .75rem;
+  width: 100%;
+  background: transparent;
+  border: 1px dashed #b9c6da;
+  color: #4a6b9c;
+  padding: .4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: .8rem;
+}
+
+/* Phase gating: .ph-w / .ph-b / .ph-s show only in their phase */
+#identityModal[data-phase="welcome"] :is(.ph-b, .ph-s):not(.ph-w) { display: none; }
+#identityModal[data-phase="backup"] :is(.ph-w, .ph-s):not(.ph-b) { display: none; }
+#identityModal[data-phase="session"] :is(.ph-w, .ph-b):not(.ph-s) { display: none; }

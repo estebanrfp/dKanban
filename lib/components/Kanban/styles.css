@@ -455,3 +455,51 @@ input#filter-search {
 ::-moz-selection {
   background: rgba(255, 255, 255, 0.2);
 } */
+/* ── Governance & ACL affordances ── */
+/* Live role tag in the header chip — tier color on the text only */
+.role-tag { font-family: monospace; font-size: .8rem; color: #b4deff; }
+.role-tag.role-user { color: #a5f3b4; }
+.role-tag.role-superadmin { color: #7fffd4; }
+
+/* Board context (share / whose board) inside the header chip */
+#board-context {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  color: #b4deff;
+}
+
+#board-context button {
+  background: rgb(180 222 255 / 54%);
+  color: #fff;
+  border-radius: 8px;
+  padding: .35rem .6rem;
+  cursor: pointer;
+}
+
+/* Read-only board: hide every editing affordance (the ACL middleware on the
+   peers enforces it for real — this is just honest UI) */
+.board-readonly .add-card-btn,
+.board-readonly #add-col-div,
+.board-readonly .open-col-menu-btn,
+.board-readonly .open-card-menu-btn { display: none; }
+
+/* Share modal rows */
+#collab-list { margin-top: .5rem; }
+.share-link-row code { font-size: .75rem; word-break: break-all; }
+.collab-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem 0;
+  border-top: 1px solid rgba(0, 0, 0, .051);
+}
+.collab-row .revoke-access-btn {
+  margin-left: auto;
+  color: FIREBRICK;
+  background: transparent;
+  cursor: pointer;
+}
+.collab-empty { color: #888; font-size: .85rem; }
+#share-address { margin-top: .5rem; padding: .5rem; border: 1px solid #ccc; border-radius: 4px; }

@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="./lib/components/Alerts/styles.css">
   <link rel="stylesheet" href="./lib/components/Modal/styles.css">
   <link rel="stylesheet" href="./lib/components/Spinner/styles.css">
-  <link rel="stylesheet" href="./lib/components/Signing/styles.css">
   <link rel="stylesheet" href="./lib/components/Kanban/styles.css">
   <link rel="stylesheet" href="./lib/components/Kanban/colorPicker.css">
 </head>
@@ -40,96 +39,252 @@
     <div id="submenuBody"></div>
   </div>
   <div id="overlay" class="hidden"></div>
+
+  <!-- Identity modal — the door of the app (GenosDB Design Guide): auto-opens
+       on every session-less load, three phases, no × (backdrop / Esc dismiss).
+       Styled after dKanban's own modal component. -->
+  <dialog id="identityModal" data-phase="welcome">
+    <h2>dKanban Access</h2>
+    <p class="id-hint ph-w">Your board is yours, cryptographically. Sign in and the governance
+      rules promote you to <em>user</em> (~10&nbsp;s while a superadmin is online) — then your
+      personal board is created and you can share it with other addresses.</p>
+    <p class="id-hint id-warn ph-b">Save this phrase — it is the ONLY way back into this identity.</p>
+    <div class="ph-s">
+      <p class="id-hint">Signed in as</p>
+      <p id="sessionAddr" class="id-addr">—</p>
+    </div>
+    <textarea id="mnemonicBox" class="ph-w ph-b" rows="3" spellcheck="false"
+      placeholder="Paste your mnemonic phrase — or generate a new identity"></textarea>
+    <div class="id-actions">
+      <button id="generateBtn" class="confirm-btn ph-w">Generate identity</button>
+      <button id="loginBtn" class="confirm-btn ph-w ph-b">Login with mnemonic</button>
+      <button id="webauthnLoginBtn" class="ph-w">Login with passkey</button>
+      <button id="copyBtn" class="ph-b">Copy</button>
+      <button id="protectBtn" class="confirm-btn ph-b ph-s">Protect with passkey</button>
+      <button id="logoutBtn" class="ph-s">Sign out</button>
+    </div>
+    <button id="superadminBtn" class="superadmin-btn ph-w" title="Runs the governance engine in this browser">🛡️ Demo
+      superadmin</button>
+  </dialog>
+
   <!-- Single top-level module with all boot logic -->
   <script type="module">
     // Import ESM dependencies from CDNs
     import { gdb } from 'https://cdn.jsdelivr.net/npm/genosdb@latest/dist/index.min.js'
     import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js'
+    import alert from './lib/components/Alerts/index.js'
 
-    // Lazy-load local components only when needed
-    const mount = document.querySelector('.Layout')
+    // Demo superadmin — SHOWCASE ONLY. Its mnemonic is public so any visitor
+    // can run the governance engine. Replace both for a real deployment.
+    const DEMO_SUPERADMIN = {
+      address: '0xbfDe0eCEC5332Fd86D2570085571D6051Df098dA',
+      mnemonic: 'panic now afford carbon donate lecture drift excite collect essay stuff prosper'
+    }
+    const SUPER_ADMINS = [DEMO_SUPERADMIN.address]
 
-    // Initialize database once, enabling SM (RTC required)
+    // Zero-trust RBAC. Boards are PERSONAL and ACL-owned: the `user` role only
+    // grants the right to create YOUR board — writing anyone else's requires a
+    // grant from its owner (node-level ACLs, checked by every peer).
+    const ROLES = {
+      superadmin: { can: ['assignRole'], inherits: ['user'] }, // signs promotions
+      user: { can: ['write', 'link', 'sync'], inherits: ['guest'] }, // owns & shares a board
+      guest: { can: ['read', 'sync'] } // watches shared boards only
+    }
+
+    // Governance keeps a supporting role here (the star is ACL ownership —
+    // see collab/dVoting for the full promotion ladder): one onboarding gate
+    // so write access is earned, not free for throwaway identities.
+    const GOVERNANCE_RULES = [
+      { if: { role: 'guest' }, offsetTimestamp: 10000, then: { assignRole: 'user' } }
+    ]
+
     const db = await gdb('dkanban', {
       rtc: true,
       sm: {
-        // NOTE: replace with your admin addresses
-        superAdmins: ['0xE5639DfE345F8ab845bEBE63a1C7322F9c6fF5c7'],
-        customRoles: {
-          superadmin: { can: ["assignRole", "deleteAny"], inherits: ["admin"] },
-          admin: { can: ["delete"], inherits: ["manager"] },
-          manager: { can: ["publish"], inherits: ["user"] },
-          user: { can: ["write"], inherits: ["guest"] },
-          guest: { can: ["read", "sync", "write"] },  // "write" added temporarily for testing guest permissions
-        }
+        superAdmins: SUPER_ADMINS,
+        customRoles: ROLES,
+        governanceRules: GOVERNANCE_RULES,
+        acls: true // boards belong to their creators
       }
     })
+    globalThis.db = db // console handle (matches the official examples)
 
-    const loadKanban = async (state = {}) => {
-      const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
-      await mountKanban({ db, mount, marked, onLogout: loadSigning, state })
-    }
+    // Hygiene: the previous build kept WebAuthn mnemonics in PLAIN TEXT in
+    // localStorage. Purge them — passkeys are now handled by the SM, which
+    // encrypts the identity with the credential instead.
+    try {
+      Object.keys(localStorage).filter(k => k.startsWith('webauthn-')).forEach(k => localStorage.removeItem(k))
+    } catch (_) { }
 
-    const loadSigning = async () => {
-      const { default: mountSigning } = await import('./lib/components/Signing/index.js')
-      await mountSigning({ db, mount, onAuthenticated: (identity) => {
-        const abbrAddr = identity?.address ? `${ identity.address.slice(0,6) }…${ identity.address.slice(-4) }` : undefined
-        loadKanban({ abbrAddr })
-      } })
-    }
+    const mount = document.querySelector('.Layout')
+    const $ = id => document.getElementById(id)
+    const toast = (msg, warn = false) => alert('', '', msg, warn ? 'warning' : 'success', false, true)
+    const abbr = addr => addr ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : ''
 
-    // Helpers for WebAuthn auto-login
-    const toBase64Url = buffer => {
-      const bytes = new Uint8Array(buffer)
-      let binary = ''
-      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i])
-      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
-    }
-    const fromBase64Url = (str) => {
-      const pad = '='.repeat((4 - (str.length % 4)) % 4)
-      const base64 = (str + pad).replace(/-/g, '+').replace(/_/g, '/')
-      const raw = atob(base64)
-      const out = new Uint8Array(raw.length)
-      for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i)
-      return out.buffer
-    }
-    const abbr = addr => addr ? `${ addr.slice(0,6) }…${ addr.slice(-4) }` : ''
+    // ======================== Identity & governance ========================
 
-    async function tryAutoLoginWithWebAuthn () {
-      // Objetivo: evitar pedir huella/biometría en cada reload.
-      // Si hay mnemonic asociado a una credencial previa, reingresamos directo.
-      let rawId = localStorage.getItem('webauthn-last')
-      let mnemonic = rawId ? localStorage.getItem(`webauthn-mnemonic-${rawId}`) : null
-      if (!mnemonic) {
-        // Fallback: buscar cualquier mnemonic guardado
-        for (let i = 0; i < localStorage.length && !mnemonic; i++) {
-          const k = localStorage.key(i)
-          if (k && k.startsWith('webauthn-mnemonic-')) {
-            mnemonic = localStorage.getItem(k)
-            rawId = k.replace('webauthn-mnemonic-', '')
-          }
-        }
+    let myAddress = null
+    let myRole = null
+    let unsubRole = null
+    let unmountKanban = null
+
+    const can = permission => {
+      let role = myRole
+      while (role && ROLES[role]) {
+        if (ROLES[role].can.includes(permission)) return true
+        role = ROLES[role].inherits?.[0]
       }
-      if (!mnemonic) return null
+      return false
+    }
+
+    // Superadmin standing comes from the LOCAL config — the engine verifies
+    // operations and applies governance immunity against the list, never the
+    // synced user node (a mirror that can lag or lose an LWW race).
+    const effectiveRole = nodeRole =>
+      SUPER_ADMINS.includes(myAddress) ? 'superadmin' : (nodeRole ?? 'guest')
+
+    const boardOwnerFromHash = () => {
+      const m = location.hash.match(/^#board=(0x[0-9a-fA-F]{40})$/)
+      return m ? m[1] : null
+    }
+
+    const remountKanban = async () => {
+      if (typeof unmountKanban === 'function') unmountKanban()
+      unmountKanban = null
+      if (!myAddress) { mount.innerHTML = ''; return } // signed out: the modal is the door
+      const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
+      unmountKanban = await mountKanban({
+        db, mount, marked, toast,
+        state: {
+          myAddress,
+          role: myRole ?? 'guest',
+          canWrite: can('write'),
+          boardOwner: boardOwnerFromHash() || myAddress
+        },
+        onLogout: () => db.sm.clearSecurity()
+      })
+    }
+
+    const applyRoleUpdate = (nodeRole, nodeSeen) => {
+      const next = effectiveRole(nodeRole)
+      if (next === myRole) return
+      const hadWrite = can('write')
+      const firstSight = myRole === null
+      myRole = next
+      remountKanban() // the board gates (create/edit/share) follow the live role
+      if (!hadWrite && can('write')) toast(`Write access unlocked — role: ${myRole}`)
+      else if (firstSight && nodeSeen && next === 'guest') toast('Signed in as guest — the user role arrives in ~10 s while a superadmin is online')
+    }
+
+    const watchMyRole = async () => {
+      unsubRole?.()
+      if (SUPER_ADMINS.includes(myAddress)) applyRoleUpdate(null, false) // config-declared, no sync needed
+      ;({ unsubscribe: unsubRole } = await db.get(`user:${myAddress}`, node =>
+        applyRoleUpdate(node?.value?.role, !!node)))
+    }
+
+    // ===================== Identity modal (three phases) ====================
+
+    const identityModal = $('identityModal')
+    const mnemonicBox = $('mnemonicBox')
+
+    const setPhase = phase => {
+      identityModal.dataset.phase = phase
+      if (phase === 'welcome') mnemonicBox.readOnly = false
+    }
+    // No × close button: dismissal is the backdrop click or Esc (native to
+    // <dialog>) — the modal is a door, not a window.
+    identityModal.addEventListener('click', e => { if (e.target === identityModal) identityModal.close() })
+
+    const onSecurityState = state => {
+      if (state.isActive) {
+        myAddress = state.activeAddress
+        $('sessionAddr').textContent = state.activeAddress || '—'
+        $('protectBtn').style.display = state.isWebAuthnProtected ? 'none' : ''
+        identityModal.close()
+        watchMyRole()
+      } else {
+        unsubRole?.(); unsubRole = null
+        myAddress = null; myRole = null
+        $('webauthnLoginBtn').style.display = state.hasWebAuthnHardwareRegistration ? '' : 'none'
+        $('protectBtn').style.display = ''
+        // While a freshly generated identity is pending (volatile), stay in the
+        // backup phase so the user saves that phrase instead of minting another.
+        if (!state.hasVolatileIdentity) {
+          setPhase('welcome')
+          mnemonicBox.value = '' // never leave a signed-out mnemonic on display
+        }
+        remountKanban()
+        if (!identityModal.open) identityModal.showModal() // signed-out IS the modal
+      }
+    }
+    db.sm.setSecurityStateChangeCallback(onSecurityState)
+
+    $('generateBtn').addEventListener('click', async () => {
+      try {
+        const identity = await db.sm.startNewUserRegistration()
+        if (!identity) return toast('Could not create identity', true)
+        mnemonicBox.value = identity.mnemonic
+        mnemonicBox.readOnly = true
+        setPhase('backup')
+      } catch (e) { toast(e?.message || 'Error creating identity', true) }
+    })
+
+    $('loginBtn').addEventListener('click', async () => {
+      const mnemonic = mnemonicBox.value.trim()
+      if (!mnemonic) return toast('Paste (or generate) a mnemonic first', true)
       try {
         const identity = await db.sm.loginOrRecoverUserWithMnemonic(mnemonic)
-        return identity
-      } catch (_) {
-        return null
-      }
-    }
+        identity ? toast(`Welcome, ${abbr(identity.address)}`) : toast('Invalid mnemonic', true)
+      } catch (e) { toast(e?.message || 'Mnemonic login error', true) }
+    })
 
-    // Decide first screen based on security/session state + WebAuthn auto-login
-    if (db.sm && db.sm.isSecurityActive()) {
-      await loadKanban()
-    } else {
-      const identity = await tryAutoLoginWithWebAuthn()
-      if (identity?.address) {
-        await loadKanban({ abbrAddr: abbr(identity.address) })
-      } else {
-        await loadSigning()
-      }
-    }
+    $('webauthnLoginBtn').addEventListener('click', async () => {
+      try {
+        const address = await db.sm.loginCurrentUserWithWebAuthn()
+        if (!address) toast('Passkey login failed', true)
+      } catch (e) { toast(e?.message || 'Passkey login error', true) }
+    })
+
+    $('protectBtn').addEventListener('click', async () => {
+      try {
+        const address = await db.sm.protectCurrentIdentityWithWebAuthn()
+        address ? toast(`Identity ${abbr(address)} protected with a passkey`) : toast('Could not protect identity', true)
+      } catch (e) { toast('Passkey error (HTTPS required)', true) }
+    })
+
+    $('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(mnemonicBox.value)
+        toast('Mnemonic copied. Keep it in a safe place!')
+      } catch { toast('Copy permission denied (you can save it manually)', true) }
+    })
+
+    // One-click demo superadmin: runs the governance engine in this browser.
+    $('superadminBtn').addEventListener('click', () => db.sm.loginOrRecoverUserWithMnemonic(DEMO_SUPERADMIN.mnemonic))
+
+    $('logoutBtn').addEventListener('click', async () => {
+      try { await db.sm.clearSecurity(); toast('Signed out') }
+      catch { toast('Could not sign out', true) }
+    })
+
+    // ================================ Boot ==================================
+
+    addEventListener('hashchange', () => remountKanban()) // #board=<address> deep links
+
+    // Hydrate if the SM silently resumed a session before our callback landed;
+    // otherwise boot signed-out (which opens the identity modal — the door).
+    try {
+      onSecurityState({
+        isActive: db.sm.isSecurityActive(),
+        activeAddress: db.sm.getActiveEthAddress?.() ?? null,
+        isWebAuthnProtected: db.sm.isCurrentSessionProtectedByWebAuthn?.() ?? false,
+        hasWebAuthnHardwareRegistration: db.sm.hasExistingWebAuthnRegistration?.() ?? false
+      })
+    } catch (_) { }
+
+    // Leave the room on real unload only — never pagehide (tab-freeze fires it).
+    addEventListener('beforeunload', () => db.room?.leave?.())
   </script>
 </body>
 

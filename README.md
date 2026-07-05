@@ -1,27 +1,30 @@
 # dKanban Board
 
-Distributed Kanban board that stores data with GenosDB
+Distributed Kanban board on [GenosDB](https://github.com/estebanrfp/gdb) — your board is **yours, cryptographically**.
+
+Every identity owns a personal board protected by node-level **ACLs**: only the owner (and the collaborators they explicitly grant) can write it, and every peer re-verifies that on every operation. **Governance** keeps the door honest — newcomers are read-only guests until the rules promote them to `user` (~10 s while a superadmin is online), so write access is earned, not free for throwaway identities.
 
 ## Features
-- Markdown
-- Drag & Drop Cards and Columns
-- Add, Edit, Remove Cards
-- Add, Edit, Remove Columns
+- Personal board per identity, ACL-owned — nobody else can touch it
+- **Share Access**: grant/revoke write to another address + shareable `#board=0x…` deep link
+- Zero-trust roles (`guest` → `user`) promoted by the governance engine
+- Identity modal as the door: mnemonic identity, passkey protection (WebAuthn via the Security Manager)
+- Markdown cards, drag & drop cards and columns, live P2P sync
 
-## Coming soon
-Refactored components will be available soon
+## Try it
+1. Open the [demo](https://estebanrfp.github.io/dKanban/) — the identity dialog is the door.
+2. Press **🛡️ Demo superadmin** in one browser (runs the governance engine).
+3. Generate an identity in another browser: watch it earn `user` and get its own board.
+4. **Share** your board with the other identity's address and edit it together.
 
-## ScreenShoot
+## Screenshot
 
 ![GitHub Logo](docs/screenshot.png)
-
-[![dKanban Video](docs/dkanban.png)](https://cdn.lbryplayer.xyz/api/v3/streams/free/dKanban-Board---Distributed-Kanban-board-that-stores-data-in-Gun/9976b03a22673dd0d3942fa4db78655252b915cd/850aff "dKanban Video")
 
 [dKanban Demo](https://estebanrfp.github.io/dKanban/) Powered by [GenosDB](https://github.com/estebanrfp/gdb)
 
 -------------
 
-#### Credits & Thanks
-* [Mark's GUN](https://gun.eco/) and its community!
+## Author
 
-* [by estebanrfp](https://github.com/estebanrfp)
+Esteban Fuster Pozzi (@estebanrfp) - Full Stack JavaScript Developer
