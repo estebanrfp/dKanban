@@ -162,21 +162,28 @@
       return m ? m[1] : null
     }
 
-    const remountKanban = async () => {
-      if (typeof unmountKanban === 'function') unmountKanban()
-      unmountKanban = null
-      if (!myAddress) { mount.innerHTML = ''; return } // signed out: the modal is the door
-      const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
-      unmountKanban = await mountKanban({
-        db, mount, marked, toast,
-        state: {
-          myAddress,
-          role: myRole ?? 'guest',
-          canWrite: can('write'),
-          boardOwner: boardOwnerFromHash() || myAddress
-        },
-        onLogout: () => db.sm.clearSecurity()
-      })
+    // Remounts are SERIALIZED: login, role promotion and hash changes can fire
+    // in quick succession, and overlapping mounts would leak orphan db.map
+    // subscriptions that repaint over the fresh header (empty chip, no Share).
+    let mountQueue = Promise.resolve()
+    const remountKanban = () => {
+      mountQueue = mountQueue.then(async () => {
+        if (typeof unmountKanban === 'function') unmountKanban()
+        unmountKanban = null
+        if (!myAddress) { mount.innerHTML = ''; return } // signed out: the modal is the door
+        const { default: mountKanban } = await import('./lib/components/Kanban/index.js')
+        unmountKanban = await mountKanban({
+          db, mount, marked, toast,
+          state: {
+            myAddress,
+            role: myRole ?? 'guest',
+            canWrite: can('write'),
+            boardOwner: boardOwnerFromHash() || myAddress
+          },
+          onLogout: () => db.sm.clearSecurity()
+        })
+      }).catch(e => console.error('Kanban mount failed:', e))
+      return mountQueue
     }
 
     const applyRoleUpdate = (nodeRole, nodeSeen) => {
