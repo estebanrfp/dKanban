@@ -23,6 +23,20 @@
   <span id="pageMessages"></span>
   <div class="notifications"></div>
   <span class="spinner fadeout"></span>
+  <!-- Signed-out curtain: the animated color grid from the original Signing
+       screen, now the full-screen backdrop behind the identity modal. -->
+  <div id="doorBackdrop" class="grid" hidden>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
   <div id="container" class="Layout"></div>
   <div id="modal" hidden>
     <div id="modalHeader">
@@ -199,6 +213,7 @@
     const onSecurityState = state => {
       if (state.isActive) {
         myAddress = state.activeAddress
+        $('doorBackdrop').hidden = true
         $('sessionAddr').textContent = state.activeAddress || '—'
         $('protectBtn').style.display = state.isWebAuthnProtected ? 'none' : ''
         identityModal.close()
@@ -215,6 +230,7 @@
           mnemonicBox.value = '' // never leave a signed-out mnemonic on display
         }
         remountKanban()
+        $('doorBackdrop').hidden = false // the animated curtain behind the door
         if (!identityModal.open) identityModal.showModal() // signed-out IS the modal
       }
     }

@@ -67,7 +67,9 @@ textarea {
 }
 
 #identityModal::backdrop {
-  background: rgba(0, 0, 0, 0.55);
+  /* Light veil only: the signed-out curtain (animated color grid) must shine
+     through, like the original Signing screen. */
+  background: rgba(0, 0, 0, 0.15);
 }
 
 #identityModal h2 {
@@ -136,3 +138,76 @@ textarea {
 #identityModal[data-phase="welcome"] :is(.ph-b, .ph-s):not(.ph-w) { display: none; }
 #identityModal[data-phase="backup"] :is(.ph-w, .ph-s):not(.ph-b) { display: none; }
 #identityModal[data-phase="session"] :is(.ph-w, .ph-b):not(.ph-s) { display: none; }
+
+/* ── Signed-out curtain: the original Signing screen's animated color grid,
+   full-screen behind the identity modal (the <dialog> top layer sits above) ── */
+#doorBackdrop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  max-width: 124vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  animation: resize 6000ms ease infinite both;
+}
+
+.item {
+  animation: colorChange 3000ms ease var(--delay) infinite both;
+}
+
+.item:nth-child(4n - 2) {
+  --delay: 1000ms;
+}
+
+.item:nth-child(4n) {
+  --delay: 2000ms;
+}
+
+@keyframes colorChange {
+  0% {
+    background-color: #ffb647;
+  }
+  25% {
+    background-color: #ceff47;
+  }
+  50% {
+    background-color: #47afff;
+  }
+  75% {
+    background-color: #ff47f0;
+  }
+  100% {
+    background-color: #ffb647;
+  }
+}
+
+@keyframes resize {
+  0% {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  25% {
+    grid-template-columns: 1fr 2fr 3fr;
+    grid-template-rows: 1fr 2fr 3fr;
+  }
+  50% {
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+  }
+  75% {
+    grid-template-columns: 3fr 2fr 1fr;
+    grid-template-rows: 3fr 2fr 1fr;
+  }
+  100% {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+}
