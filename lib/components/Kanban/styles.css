@@ -458,6 +458,16 @@ input#filter-search {
 /* ── Governance & ACL affordances ── */
 /* Live role tag in the header chip — tier color on the text only */
 .role-tag { font-family: monospace; font-size: .8rem; color: #b4deff; }
+/* Address in the header chip: click-to-copy, styled as text not a button */
+.copy-addr {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.copy-addr:hover { color: #fff; text-decoration: underline; }
 .role-tag.role-user { color: #a5f3b4; }
 .role-tag.role-superadmin { color: #7fffd4; }
 
