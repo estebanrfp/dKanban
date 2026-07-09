@@ -131,6 +131,8 @@ input#filter-search:focus { border-color: var(--accent); }
 .add-card-btn { margin-left: auto; }
 
 .col-btn img, .card-btn img, .col-btn svg, .card-btn svg { pointer-events: none; }
+/* Octicons paint with `fill` — inherit the button color so they show on dark */
+.col-btn svg, .card-btn svg { fill: currentColor; }
 
 /* Add-column affordance */
 #add-col-div {
@@ -161,15 +163,38 @@ input#filter-search:focus { border-color: var(--accent); }
 .card {
   background: var(--bg-tertiary);
   border: 1px solid var(--border-subtle);
+  /* Optional neon accent: a card carries its color as a left edge + glow
+     (set via the inline --card-neon var), dark surface untouched. */
+  border-left: 3px solid var(--card-neon, var(--border-strong));
   border-radius: var(--radius-md);
+  box-shadow: -5px 0 18px -10px var(--card-neon, transparent);
   margin: var(--space-2);
   padding: var(--space-3);
   cursor: move;
   color: var(--text-primary);
-  transition: border-color .15s ease;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-.card:hover { border-color: var(--border-strong); }
+.card:hover { box-shadow: -5px 0 22px -8px var(--card-neon, transparent); }
+
+/* Neon color picker in the add-card form */
+.color-list {
+  list-style: none;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.color {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+.color:hover { transform: scale(1.25); }
+.color.active { outline: 2px solid var(--text-primary); outline-offset: 2px; }
 
 .card-text { word-wrap: break-word; overflow-wrap: anywhere; }
 .card-text h1, .card-text h2 {
