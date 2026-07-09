@@ -163,19 +163,18 @@ input#filter-search:focus { border-color: var(--accent); }
 .card {
   background: var(--bg-tertiary);
   border: 1px solid var(--border-subtle);
-  /* Optional neon accent: a card carries its color as a left edge + glow
-     (set via the inline --card-neon var), dark surface untouched. */
-  border-left: 3px solid var(--card-neon, var(--border-strong));
+  /* Optional color accent: a solid left edge in the card's color (set via
+     the inline --card-neon var). No glow — solid, flat. */
+  border-left: 4px solid var(--card-neon, var(--border-strong));
   border-radius: var(--radius-md);
-  box-shadow: -5px 0 18px -10px var(--card-neon, transparent);
   margin: var(--space-2);
   padding: var(--space-3);
   cursor: move;
   color: var(--text-primary);
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: border-color .15s ease;
 }
 
-.card:hover { box-shadow: -5px 0 22px -8px var(--card-neon, transparent); }
+.card:hover { border-color: var(--border-strong); }
 
 /* Neon color picker in the add-card form */
 .color-list {
