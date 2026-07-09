@@ -10,33 +10,18 @@
   <meta httpEquiv="Pragma" content="no-cache" />
   <link rel="shortcut icon"
     href="https://raw.githubusercontent.com/estebanrfp/static-assets/master/dKanban/favicon.ico" />
-  <link rel="stylesheet" href="./lib/styles.css?v=acl3">
+  <link rel="stylesheet" href="./lib/styles.css?v=dark1">
   <!-- Component styles (loaded via link instead of JS imports) -->
-  <link rel="stylesheet" href="./lib/components/Alerts/styles.css?v=acl3">
-  <link rel="stylesheet" href="./lib/components/Modal/styles.css?v=acl3">
-  <link rel="stylesheet" href="./lib/components/Spinner/styles.css?v=acl3">
-  <link rel="stylesheet" href="./lib/components/Kanban/styles.css?v=acl3">
-  <link rel="stylesheet" href="./lib/components/Kanban/colorPicker.css?v=acl3">
+  <link rel="stylesheet" href="./lib/components/Alerts/styles.css?v=dark1">
+  <link rel="stylesheet" href="./lib/components/Modal/styles.css?v=dark1">
+  <link rel="stylesheet" href="./lib/components/Spinner/styles.css?v=dark1">
+  <link rel="stylesheet" href="./lib/components/Kanban/styles.css?v=dark1">
 </head>
 
 <body>
   <span id="pageMessages"></span>
   <div class="notifications"></div>
   <span class="spinner fadeout"></span>
-  <!-- Signed-out curtain: the animated color grid from the original Signing
-       screen, now the full-screen backdrop behind the identity modal. -->
-  <div id="doorBackdrop" class="grid" hidden>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
   <div id="container" class="Layout"></div>
   <div id="modal" hidden>
     <div id="modalHeader">
@@ -171,7 +156,7 @@
         if (typeof unmountKanban === 'function') unmountKanban()
         unmountKanban = null
         if (!myAddress) { mount.innerHTML = ''; return } // signed out: the modal is the door
-        const { default: mountKanban } = await import('./lib/components/Kanban/index.js?v=acl3')
+        const { default: mountKanban } = await import('./lib/components/Kanban/index.js?v=dark1')
         unmountKanban = await mountKanban({
           db, mount, marked, toast,
           state: {
@@ -223,7 +208,6 @@
     const onSecurityState = state => {
       if (state.isActive) {
         myAddress = state.activeAddress
-        $('doorBackdrop').hidden = true
         $('sessionAddr').textContent = state.activeAddress || '—'
         $('protectBtn').style.display = state.isWebAuthnProtected ? 'none' : ''
         identityModal.close()
@@ -240,7 +224,6 @@
           mnemonicBox.value = '' // never leave a signed-out mnemonic on display
         }
         remountKanban()
-        $('doorBackdrop').hidden = false // the animated curtain behind the door
         if (!identityModal.open) identityModal.showModal() // signed-out IS the modal
       }
     }

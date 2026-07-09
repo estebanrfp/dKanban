@@ -1,5 +1,8 @@
 #modal {
-  background-color: #FFFFFF;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   position: fixed;
   padding: 0;
   z-index: 51;
@@ -8,28 +11,31 @@
   transform: translate(-50%, -50%);
   min-width: 320px;
   max-width: 400px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-#modalTitle {
-  padding: .5rem 1rem;
-}
+#modalTitle { padding: var(--space-3) var(--space-4); font-size: 1rem; }
 
-#modalHeader, #modalBody, #submenuHeader {
+#modalHeader {
   display: flex;
-  border-bottom: 1px solid rgba(0, 0, 0, .051);
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 #modalBody {
+  display: flex;
   flex-direction: column;
-  padding: 1rem;
+  gap: var(--space-3);
+  padding: var(--space-4);
 }
+
+#modalBody p { margin: 0; color: var(--text-secondary); font-size: .9rem; }
 
 #close-modal, #close-col-menu {
   margin-left: auto;
   background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 1.2rem;
+  cursor: pointer;
 }
-
-.todo {
-  padding: 1rem;
-}
+#close-modal:hover, #close-col-menu:hover { color: var(--text-primary); }

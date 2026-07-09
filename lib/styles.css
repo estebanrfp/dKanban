@@ -1,12 +1,48 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik:400,500');
-* {
-  outline: 0;
-  border: 0;
-  outline: none;
+/* ===================================================================
+   dKanban — GenosDB Design Guide tokens (dark, minimal).
+   Every color/space/radius in the app references a token below.
+   =================================================================== */
+:root {
+  /* Backgrounds (dark → elevated) */
+  --bg-primary: #0d0f12;      /* page */
+  --bg-secondary: #14171c;    /* columns, cards, sidebar */
+  --bg-tertiary: #1c2026;     /* inputs, hover, pills */
+  --bg-elevated: #22262d;     /* modals, popovers */
+
+  /* Text */
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa3ad;
+  --text-tertiary: #5c6570;   /* hints, timestamps, addresses */
+
+  /* Accent & status (also the kanban stage ramp) */
+  --accent: #4c8dff;          /* primary actions, links, in-progress */
+  --accent-hover: #6ba1ff;
+  --ok: #34c77b;              /* success, done */
+  --warn: #f5a623;            /* caution */
+  --danger: #ef5350;          /* delete, trash */
+  --violet: #a78bfa;          /* superadmin */
+
+  /* Borders */
+  --border-subtle: #262b33;
+  --border-strong: #333a44;
+
+  /* Shape & rhythm (8px grid) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
 }
 
-show {
-  display: block;
+* {
+  outline: 0;
+  box-sizing: border-box;
 }
 
 .hidden {
@@ -14,211 +50,120 @@ show {
 }
 
 body {
-  font-family: 'Rubik', sans-serif;
-  background: #6797dc;
-  color: #444;
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
 }
 
-h1 {
-  margin: 0.25em 0;
-}
-
-h2, h3 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-h4 {
-  margin-top: 1em;
-  margin-bottom: 0;
-}
-
-p {
-  margin-top: .5rem;
-}
+h1 { margin: 0.25em 0; }
+h2, h3 { margin: 0; font-size: 1rem; }
+h4 { margin: 1em 0 0; }
+p { margin-top: .5rem; }
 
 textarea {
-  font-family: 'Rubik', sans-serif;
+  font-family: var(--font);
   font-size: 1rem;
   padding: .5rem;
-  /* border: 1px solid #ccc; */
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   box-sizing: border-box;
   width: 100%;
-  /* resize: vertical; */
   resize: none;
-  opacity: 0.5;
-
 }
-/* ── Identity modal (the door of the app — GenosDB Design Guide) ──
-   Styled after dKanban's own modal component: white card, Rubik, green
-   confirm buttons. Three phases gated by [data-phase]. */
+
+/* ── Identity modal — the door of the app (GenosDB Design Guide) ──
+   Centered <dialog>, dark elevated card, three phases gated by [data-phase]. */
 #identityModal {
-  /* Translucent like the original Signing box — the curtain colors glow
-     through the glass; blur keeps the text readable. */
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #444;
-  border: 0;
-  border-radius: 4px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   min-width: 320px;
   max-width: 400px;
-  padding: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: var(--space-5);
 }
 
 #identityModal::backdrop {
-  /* Light veil only: the signed-out curtain (animated color grid) must shine
-     through, like the original Signing screen. */
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 #identityModal h2 {
-  color: #4a6b9c;
-  margin-bottom: .5rem;
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  margin-bottom: var(--space-2);
 }
 
 #identityModal .id-hint {
   font-size: .85rem;
-  color: #666;
-  line-height: 1.4;
-  margin: .25rem 0 .5rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: .25rem 0 .75rem;
 }
 
-#identityModal .id-hint.id-warn {
-  color: #b78103;
-}
+#identityModal .id-hint.id-warn { color: var(--warn); }
 
 #identityModal .id-addr {
-  font-family: monospace;
+  font-family: var(--mono);
   font-size: .8rem;
   word-break: break-all;
-  color: #4a6b9c;
+  color: var(--text-secondary);
 }
 
 #identityModal textarea {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  font-family: monospace;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--mono);
   font-size: .85rem;
+  border-radius: var(--radius-sm);
 }
+
+#identityModal textarea::placeholder { color: var(--text-tertiary); }
 
 #identityModal .id-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: .5rem;
-  margin-top: .5rem;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 #identityModal .id-actions button {
-  padding: .5rem .75rem;
-  border-radius: 4px;
+  padding: .5rem .85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  background: #e8eef7;
-  color: #444;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: .85rem;
+  transition: background .15s ease, border-color .15s ease;
 }
+
+#identityModal .id-actions button:hover { border-color: var(--accent); }
 
 #identityModal .id-actions button.confirm-btn {
-  background-color: #4CAF50;
-  color: white;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
+#identityModal .id-actions button.confirm-btn:hover { background: var(--accent-hover); }
+
 #identityModal .superadmin-btn {
-  margin-top: .75rem;
+  margin-top: var(--space-4);
   width: 100%;
   background: transparent;
-  border: 1px dashed #b9c6da;
-  color: #4a6b9c;
-  padding: .4rem;
-  border-radius: 4px;
+  border: 1px dashed var(--border-strong);
+  color: var(--violet);
+  padding: .5rem;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: .8rem;
 }
+
+#identityModal .superadmin-btn:hover { border-color: var(--violet); }
 
 /* Phase gating: .ph-w / .ph-b / .ph-s show only in their phase */
 #identityModal[data-phase="welcome"] :is(.ph-b, .ph-s):not(.ph-w) { display: none; }
 #identityModal[data-phase="backup"] :is(.ph-w, .ph-s):not(.ph-b) { display: none; }
 #identityModal[data-phase="session"] :is(.ph-w, .ph-b):not(.ph-s) { display: none; }
-
-/* ── Signed-out curtain: the original Signing screen's animated color grid,
-   full-screen behind the identity modal (the <dialog> top layer sits above) ── */
-#doorBackdrop {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-}
-
-/* The author .grid rule outranks the UA [hidden] style — enforce it, which
-   also stops the keyframe animations from burning CPU while signed in. */
-#doorBackdrop[hidden] {
-  display: none;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  max-width: 124vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  animation: resize 6000ms ease infinite both;
-}
-
-.item {
-  animation: colorChange 3000ms ease var(--delay) infinite both;
-}
-
-.item:nth-child(4n - 2) {
-  --delay: 1000ms;
-}
-
-.item:nth-child(4n) {
-  --delay: 2000ms;
-}
-
-@keyframes colorChange {
-  0% {
-    background-color: #ffb647;
-  }
-  25% {
-    background-color: #ceff47;
-  }
-  50% {
-    background-color: #47afff;
-  }
-  75% {
-    background-color: #ff47f0;
-  }
-  100% {
-    background-color: #ffb647;
-  }
-}
-
-@keyframes resize {
-  0% {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-  }
-  25% {
-    grid-template-columns: 1fr 2fr 3fr;
-    grid-template-rows: 1fr 2fr 3fr;
-  }
-  50% {
-    grid-template-columns: 1fr 5fr 1fr;
-    grid-template-rows: 1fr 5fr 1fr;
-  }
-  75% {
-    grid-template-columns: 3fr 2fr 1fr;
-    grid-template-rows: 3fr 2fr 1fr;
-  }
-  100% {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-  }
-}

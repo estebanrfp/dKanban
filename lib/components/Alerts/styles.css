@@ -1,131 +1,59 @@
 #pageMessages {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  width: 340px;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 320px;
   z-index: 20000;
 }
 
 #pageMessages .alert {
   position: relative;
-  padding: 1rem;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: .85rem;
 }
 
-#pageMessages .alert p {
-  word-break: break-all;
-}
-
-#pageMessages .alert a {
-  color: green
-}
-
-#pageMessages .alert h4 {
-  display: block;
-  font-weight: bold;
-  margin: 0 0 10px;
-}
+#pageMessages .alert p { margin: 0; word-break: break-word; color: var(--text-secondary); }
+#pageMessages .alert a { color: var(--accent); }
+#pageMessages .alert h4 { margin: 0 0 .4rem; font-weight: 600; }
 
 /* Entrance: calm fade by default… */
-#pageMessages .alertin {
-  animation: alertin .3s both;
-}
-
+#pageMessages .alertin { animation: alertin .3s both; }
 /* …the shake stays exclusive to warning/danger (assigned in index.js) */
-#pageMessages .alert-shake {
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-}
+#pageMessages .alert-shake { animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both; }
+#pageMessages .alertout { animation: alertout 1.2s; }
 
-#pageMessages .alertout {
-  animation: alertout 1.2s;
-}
-
-.alert-danger {
-  color: #666;
-  background-color: #f2dede;
-  border-color: #ebccd1;
-}
-
-.alert-success {
-  color: #666;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-}
-
-.alert-info {
-  color: #666;
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-}
-
-.alert-warning {
-  color: #666;
-  background-color: #fcf8e3;
-  border-color: #faebcc;
-}
+/* Status tint on the left accent border only — minimal, meaning-carrying */
+.alert-success { border-left-color: var(--ok); }
+.alert-info { border-left-color: var(--accent); }
+.alert-warning { border-left-color: var(--warn); }
+.alert-danger { border-left-color: var(--danger); }
 
 #pageMessages .close {
   position: absolute;
-  top: 2px;
-  right: 6px;
-  color: inherit;
-  opacity: .4;
+  top: 4px;
+  right: 8px;
+  color: var(--text-tertiary);
   cursor: pointer;
 }
+#pageMessages .close:hover { color: var(--text-primary); }
 
-@media screen and (max-width:600px) {
-  #pageMessages {
-    padding: 0 1rem;
-    right: 0;
-    left: 0;
-    width: 100%;
-  }
+@media screen and (max-width: 600px) {
+  #pageMessages { right: 0; left: 0; width: 100%; padding: 0 var(--space-4); }
 }
 
-@keyframes alertin {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes alertout {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
+@keyframes alertin { from { opacity: 0; } to { opacity: 1; } }
+@keyframes alertout { from { opacity: 1; } to { opacity: 0; } }
 @keyframes shake {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
 }
